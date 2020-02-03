@@ -3,26 +3,33 @@
 	//Import PHPMailer classes into the global namespace
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\SMTP;
-
-	//date_default_timezone_set("America/Sao_Paulo");
-
+	
 	require_once("vendor/autoload.php");	
 
 	//Create a new PHPMailer instance
 	$mail = new PHPMailer;
 
 	//Tell PHPMailer to use SMTP
-	$mail->isSMTP();
+	$mail->isSMTP();	
+
+	$mail->SMTPOptions = array(
+    	'ssl' => array(
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+        'allow_self_signed' => true
+    	)
+	);
 
 	//Enable SMTP debugging
 	// SMTP::DEBUG_OFF = off (for production use)
 	// SMTP::DEBUG_CLIENT = client messages
 	// SMTP::DEBUG_SERVER = client and server messages
-	$mail->SMTPDebug = SMTP::DEBUG_SERVER;
+	$mail->SMTPDebug = SMTP::DEBUG_SERVER; //SMTP::DEBUG_CONNECTION; //SMTP::DEBUG_LOWLEVEL;
 
 	//$mail->Debugoutput = 'html';
 
 	//Set the hostname of the mail server
+	
 	$mail->Host = 'smtp.gmail.com';
 	// use
 	// $mail->Host = gethostbyname('smtp.gmail.com');
@@ -38,20 +45,23 @@
 	$mail->SMTPAuth = true;
 
 	//Username to use for SMTP authentication - use full email address for gmail
-	$mail->Username = 'romulocssilva2016@gmail.com';
+	$mail->Username = 'seu email';
 
 	//Password to use for SMTP authentication
-	$mail->Password = 'senha';
+	$mail->Password = 'sua senha';
 
 	//Set who the message is to be sent from
-	$mail->setFrom('romulocssilva2016@gmail.com', 'Curso PHP 7');
+	$mail->setFrom('seu email', 'Curso PHP 7');
 
 	//Set an alternative reply-to address
 	//$mail->addReplyTo('replyto@example.com', 'First Last');
 
 	//Set who the message is to be sent to
-	$mail->addAddress('rcsolarsilva@hotmail.com', 'Aprendendo PHP 7');
+	$mail->addAddress('outro email', 'Aprendendo PHP 7');
 
+	$mail->WordWrap = 50;//Define quebra de linha
+
+	//$mail->IsHTML = true ;
 	//Set the subject line
 	$mail->Subject = 'Testando a classe PHPMailer com Gmail';
 
